@@ -2,7 +2,9 @@
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import { formatRating, getFeatured, searchMovies } from '../api/omdb.js'
+
+import SearchBar from '../components/SearchBar.vue'
+import MovieList from '../components/MovieList.vue'
 
 const store = useStore()
 const route = useRoute()
@@ -10,45 +12,21 @@ const router = useRouter()
 
 // La recherche est gardée dans l'URL (?q=) pour la retrouver au retour du détail
 const query = ref(route.query.q ?? '')
-const movies = ref([])
-const totalResults = ref(0)
-const page = ref(1)
-const loading = ref(false)
-const error = ref('')
-const searched = ref(false)
-const lastQuery = ref('')
 const featured = ref([])
 
-async function search(more = false) {
-  const q = query.value.trim()
-  if (!q || loading.value) return
-  loading.value = true
-  error.value = ''
-  try {
-    const nextPage = more ? page.value + 1 : 1
-    const data = await searchMovies(q, nextPage)
-    movies.value = more ? [...movies.value, ...data.movies] : data.movies
-    totalResults.value = data.totalResults
-    page.value = nextPage
-    searched.value = true
-    lastQuery.value = q
-    if (!more) router.replace({ query: { q } })
-  } catch (e) {
-    error.value = e.message
-  } finally {
-    loading.value = false
-  }
+const results = ref([])
+
+function handleResults(data) {
+    results.value = data
 }
 
-const isInLibrary = (id) => store.getters.isInLibrary(id)
-const add = (movie) => store.dispatch('addToLibrary', movie)
-
+/*
 onMounted(() => {
   getFeatured()
     .then((list) => (featured.value = list))
     .catch(() => {}) // pas bloquant : la section est simplement masquée
   if (query.value) search()
-})
+})*/
 </script>
 
 <template>
@@ -72,43 +50,10 @@ onMounted(() => {
       </div>
     </div>
 
-    <form class="search-bar" role="search" @submit.prevent="search()">
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-        <circle cx="11" cy="11" r="7" />
-        <path d="M20 20l-4-4" />
-      </svg>
-      <input v-model="query" type="search" placeholder="Entrez le nom d'un film..." aria-label="Nom du film" />
-      <button type="submit" class="btn" :disabled="loading || !query.trim()">Rechercher</button>
-    </form>
+    <SearchBar @search-results="handleResults" />
+    <MovieList :results="results" />
 
-    <p v-if="error" class="error" role="alert">{{ error }}</p>
-
-    <div v-if="movies.length" class="grid results">
-      <article v-for="m in movies" :key="m.id" class="result">
-        <RouterLink :to="`/movie/${m.id}`" class="poster">
-          <img v-if="m.poster" :src="m.poster" :alt="`Affiche de ${m.title}`" loading="lazy" />
-          <span v-else>Pas d'affiche</span>
-        </RouterLink>
-        <div class="info">
-          <RouterLink :to="`/movie/${m.id}`" class="title">{{ m.title }}</RouterLink>
-          <p>{{ m.director || 'Réalisateur inconnu' }}</p>
-          <p>
-            {{ m.year }}
-            <span v-if="m.rating" class="small-rating">{{ formatRating(m.rating) }}</span>
-          </p>
-          <button v-if="isInLibrary(m.id)" type="button" class="btn-added" disabled>Dans la bibliothèque</button>
-          <button v-else type="button" class="btn" @click="add(m)">Ajouter</button>
-        </div>
-      </article>
-    </div>
-
-    <p v-else-if="searched && !loading && !error" class="empty">Aucun film trouvé pour « {{ lastQuery }} ».</p>
-
-    <p v-if="loading" class="loading" aria-live="polite"><span class="spinner" aria-hidden="true"></span> Recherche en cours...</p>
-
-    <div v-if="!loading && movies.length && movies.length < totalResults" class="more">
-      <button type="button" class="btn" @click="search(true)">Charger plus</button>
-    </div>
+  
   </section>
 </template>
 

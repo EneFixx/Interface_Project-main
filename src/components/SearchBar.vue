@@ -9,8 +9,10 @@ const yearQuery = ref('')
 const error = ref('')
 const loading = ref('')
 const url = ref('')
+const sortByTitle = ref(false)
+const sortByYear = ref(false)
 
-async function handleSearch2() {
+async function handleSearch() {
     error.value=''
     emit('search-results', [])
 
@@ -26,45 +28,23 @@ async function handleSearch2() {
     }
 
     if (yearQuery.value.trim()) {
-        return
+        if(!/^\d{4}$/.test(yearQuery.value.trim())) {
+            error.value = 'Année invalide'
+            return
+        }
+        url.value += await getMovieByYear(yearQuery.value.trim())
     }
 
     try {
         const results = await getMovie(url.value)
-        emit('search-results', Array.isArray(results) ? results : [results])
+        const list = Array.isArray(results) ? results : [results]
+        emit('search-results', sortResults(list))
     } catch(err) {
+        if (err.message.includes('Conversion failed')) {
+            error.value = 'Aucun résultat pour cette combinaison de recherche'
+    } else {
         error.value = err.message
     }
-}
-
-async function handleSearch() {
-    error.value = ''
-    emit('search-results', [])
-
-    if (searchQuery.value.trim().length < 3) {
-        error.value = 'Tapez au moins 3 charactères'
-        return
-    }
-
-    try {
-        const results = await getMovieByTitle(searchQuery.value)
-        emit('search-results', results)
-    } catch (err) {
-        if (err.message === "Movie not found!") {
-            try {
-                const movie = await getMovieById(searchQuery.value)
-                emit ('search-results', [movie])
-                return
-            } catch (err2) {
-                error.value = err2.message
-                emit('search-results', [])
-                return
-            }
-        }
-        error.value = err.message
-        emit('search-results', [])
-    } finally {
-        loading.value = false
     }
 }
 
@@ -72,11 +52,21 @@ function dropdownFilters() {
     document.getElementById("dropdown").classList.toggle("show");
 }
 
+function sortResults(movies) {
+    const sorted = [...movies]
+    if (sortByTitle.value) {
+        sorted.sort((a, b) => a.Title.localeCompare(b.Title))
+    } else if (sortByYear.value) {
+        sorted.sort((a,b) => Number(a.Year) - Number(b.Year))
+    }
+    return sorted
+}
+
 </script>
 
 <template>
     <section>
-        <form class="search-bar" @submit.prevent="handleSearch2">    
+        <form class="search-bar" @submit.prevent="handleSearch">    
             <span id="filterButton" @click="dropdownFilters">> </span>
             <input type="text" v-model="searchQuery" placeholder="Entrez le titre du film..." />
             <button type="submit">Chercher</button>
@@ -85,8 +75,8 @@ function dropdownFilters() {
                 <input type="text" v-model="yearQuery" placeholder="Année">
                 <br/>
                 Trier par:
-                Titre <input type="checkbox">
-                Année <input type="checkbox">
+                Titre <input type="checkbox" v-model="sortByTitle" @change="sortByYear = false">
+                Année <input type="checkbox" v-model="sortByYear" @change="sortByTitle = false">
             </diV>
         </form>
 
