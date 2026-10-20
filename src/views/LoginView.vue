@@ -32,30 +32,71 @@ function toggleMode() {
 </script>
 
 <template>
-    <section class="container" id="auth">
-        <h1>{{ mode === 'login' ? 'Connexion' : 'Inscription' }}</h1>
-        
-        <form @submit.prevent="handleSubmit">
-            <label>
-                Pseudo
-                <input v-model="username" type="text" required autocomplete="username" />
-            </label>
-            <label>
-                Mot de passe
-                <input v-model="password" type="password" required autocomplete="current-password" />
-            </label>
+    <section class="container">
+        <article id="auth">
+            <h1>{{ mode === 'login' ? 'Connexion' : 'Inscription' }}</h1>
+            
+            <form @submit.prevent="handleSubmit">
+                <label>
+                    Pseudo
+                    <input v-model="username" type="text" required autocomplete="username" />
+                </label>
+                <label>
+                    Mot de passe
+                    <input v-model="password" type="password" required autocomplete="current-password" />
+                </label>
 
-            <p v-if="error" class="error">{{  error }}</p>
+                <p v-if="error" class="error">{{  error }}</p>
 
-            <button type="submit" class="btn">
-                {{ mode === 'login' ? 'Se connecter' : "S'inscrire" }}
+                <button type="submit" class="btn">
+                    {{ mode === 'login' ? 'Se connecter' : "S'inscrire" }}
+                </button>
+            </form>
+
+            <button type="button" class="btn" @click="toggleMode">
+                {{ mode === 'login' ? "Pas de compte ? S'inscrire" : 'Déjà un compte ? Se connecter' }}
             </button>
-        </form>
-
-        <button type="button" class="link" @click="toggleMode">
-            {{ mode === 'login' ? "Pas de compte ? S'inscrire" : 'Déjà un compte ? Se connecter' }}
-        </button>
+        </article>
     </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+#auth {
+    padding: 1rem;
+    margin: 1rem;
+    background: var(--accent);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    color: var(--surface);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+}
+
+#auth h1 {
+    color: var(--surface);
+    font-size: 2.3rem;
+}
+
+#auth form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: .5rem;
+    justify-content: center;
+    align-items: left;
+}
+
+#auth input:focus {
+    outline: none;
+}
+
+#auth button {
+    align-self: center;
+    background-color: var(--surface);
+    color: var(--accent);
+}
+
+</style>
