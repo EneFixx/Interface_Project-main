@@ -50,7 +50,7 @@ function toggleWatched() {
 </script>
 
 <template>
-  <section>
+  <section class="container">
     <button type="button" class="back" @click="goBack">&larr; Retour</button>
 
     <p v-if="error">{{ error }}</p>

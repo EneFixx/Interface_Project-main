@@ -42,17 +42,26 @@ onMounted(async () => {
 </script>
 
 <template>
-  <LibraryStats />
-  <section id="favoriFilter">
-    Favoris uniquement <input type="checkbox" :checked="onlyFavorites" @change="toggleFilter">
+  <section class="container" id="library">
+    <LibraryStats />
+    <section id="favoriFilter">
+      Favoris uniquement <input type="checkbox" :checked="onlyFavorites" @change="toggleFilter">
 
-    <MovieList :results="shownMovies" />
+      <MovieList :results="shownMovies" />
+    </section>
   </section>
 </template>
 
 <style scoped>
+#library {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+}
 #favoriFilter {
   color: var(--accent);
   font-weight: bold;
 }
+
 </style>

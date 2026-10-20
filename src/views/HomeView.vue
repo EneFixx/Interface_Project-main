@@ -30,7 +30,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section>
+  <section class="container">
     <div class="intro">
       <h1>Bienvenue sur Ma Cinémathèque</h1>
       <p>
@@ -38,10 +38,12 @@ onMounted(() => {
         favoris et notez-les. Tout est sauvegardé dans votre navigateur.
       </p>
     </div>
-
-    <SearchBar @search-results="handleResults" />
-    <MovieList :results="results" />
-
+  </section>
+  <section id="movieSearch">
+    <div class="container">
+      <SearchBar @search-results="handleResults" />
+      <MovieList :results="results" />
+    </div>
   
   </section>
 </template>
@@ -60,6 +62,12 @@ onMounted(() => {
 
 .intro p {
   color: var(--muted);
+}
+
+#movieSearch {
+  background-color: var(--primary);
+  width: 100%;
+  flex: 1;
 }
 
 </style>

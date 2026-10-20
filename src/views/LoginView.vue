@@ -32,7 +32,7 @@ function toggleMode() {
 </script>
 
 <template>
-    <section class="auth">
+    <section class="container" id="auth">
         <h1>{{ mode === 'login' ? 'Connexion' : 'Inscription' }}</h1>
         
         <form @submit.prevent="handleSubmit">

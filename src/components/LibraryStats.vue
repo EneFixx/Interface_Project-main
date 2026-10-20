@@ -20,13 +20,13 @@ const watchedCount = computed(() => store.state.library.watched.length)
 <style scoped>
 .stats {
   margin: 1rem;
-  display: inline-block;
+  width: max-content;
   gap: 1rem;
   background: var(--surface);
   border-radius: 8px;
   padding: 1rem;
   color: var(--muted);
-  box-shadow: var(--shadow)
+  box-shadow: var(--shadow);
 }
 .stats strong {
   color: var(--accent);

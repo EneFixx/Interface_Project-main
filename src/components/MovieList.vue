@@ -19,16 +19,16 @@ defineProps({
 .searchResults {
     display: flex;
     gap: 2rem;
-    wrap: wrap;
+    flex-wrap: wrap;
+    justify-content: space-between;
     background-color: var(--surface);
     padding: 3rem;
     border-radius: 8px;
 }
 .movie {
     list-style-type: none;
-    font-size: .6rem;
+    font-size: .9rem;
 }
-
 .movie a {
     display: flex;
     flex-direction: column;
@@ -36,7 +36,13 @@ defineProps({
     text-decoration: none;
     color: black;
 }
+
+.movie p {
+    width: 10rem;
+    overflow-wrap: break-word;
+    margin: 0;
+}
 .movie img{
-    width: 8rem;
+    width: 10rem;
 }
 </style>
