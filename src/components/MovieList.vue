@@ -7,8 +7,10 @@ defineProps({
 <template>
     <ul class="searchResults">
         <li v-for="movie in results" :key="movie.imdbID" class="movie">
-            <img :src="movie.Poster" :alt="movie.Title" />
-            <p>{{ movie.Title }}</p>
+            <RouterLink :to="`/movie/${movie.imdbID}`">
+                <img :src="movie.Poster" :alt="movie.Title" />
+                <p>{{ movie.Title }}</p>
+            </RouterLink>
         </li>
     </ul>
 </template>
