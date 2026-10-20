@@ -35,6 +35,18 @@ const isInLibrary = computed(() => store.getters['library/has'](movie.value.imdb
 function toggleLibrary() {
   store.dispatch('library/toggle', movie.value.imdbID)
 }
+
+const isFavorite = computed(() => store.getters['library/isFavorite'](movie.value.imdbID))
+
+function toggleFavorite() {
+  store.dispatch('library/toggleFavorite', movie.value.imdbID)
+}
+
+const isWatched = computed(() => store.getters['library/isWatched'](movie.value.imdbID))
+
+function toggleWatched() {
+  store.dispatch('library/toggleWatched', movie.value.imdbID)
+}
 </script>
 
 <template>
@@ -54,6 +66,12 @@ function toggleLibrary() {
         <p>Durée : {{ movie.Runtime }}</p>
         <button v-if="isLoggedIn" class="btn" @click="toggleLibrary">
           {{ isInLibrary ? 'Retirer de ma bibliothèque' : 'Ajouter à ma bibliothèque' }}
+        </button>
+        <button class="btn" v-if="isInLibrary" @click="toggleFavorite">
+          {{ isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris' }}
+        </button>
+        <button class="btn" v-if="isInLibrary" @click="toggleWatched">
+          {{ isWatched ? 'Marquer comme non vu' : 'Marquer comme vu' }}
         </button>
         <p>{{ movie.Plot }}</p>
       </div>
