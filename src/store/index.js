@@ -1,4 +1,4 @@
-import { createStore } from vuex
+import { createStore } from 'vuex'
 import library from './modules/library'
 
 export default createStore({

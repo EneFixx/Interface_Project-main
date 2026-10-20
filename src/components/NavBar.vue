@@ -34,7 +34,6 @@ watchEffect(() => (document.documentElement.dataset.theme = theme.value))
       <nav>
         <RouterLink to="/">Accueil</RouterLink>
         <RouterLink to="/library">Bibliothèque <span class="badge">{{ total }}</span></RouterLink>
-        <RouterLink to="/favorites">Favoris <span class="badge">{{ favCount }}</span></RouterLink>
         <button
           type="button"
           class="theme-btn"

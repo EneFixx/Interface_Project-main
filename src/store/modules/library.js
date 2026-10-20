@@ -25,6 +25,11 @@ export default {
     },
 
     actions: {
+        loadLibrary({ commit }) {
+            const ids = JSON.parse(localStorage.getItem('library:ids') || '[]')
+            commit('SET_IDS', ids)
+            return Promise.resolve()
+        },
         add({ commit }, imdbID) {
             commit('ADD', imdbID)
             commit('PERSIST')

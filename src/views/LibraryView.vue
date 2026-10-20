@@ -1,11 +1,28 @@
 <script setup>
 import MovieList from '../components/MovieList.vue';
+import { getMovie, getMovieById } from '../services/omdbAPI.js'
+import { useStore } from 'vuex'
+import { computed, ref, onMounted } from 'vue'
 
-const library = []
+const store = useStore()
+const ids = computed(() => store.state.library.ids)
+
+const movies = ref([])
+
+onMounted(async () => {
+  const results = await Promise.all(
+    ids.value.map(async (id) => {
+      const query = await getMovieById(id)
+      return getMovie(query)
+    })
+  )
+  movies.value = results.filter(Boolean)
+})
+
 </script>
 
 <template>
-  <MovieList :results="library" />
+  <MovieList :results="movies" />
 </template>
 
 <style scoped>

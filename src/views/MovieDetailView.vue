@@ -1,12 +1,14 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { getMovie, getMovieById } from '../services/omdbAPI.js'
+import { useStore } from 'vuex'
 
 const props = defineProps({
   id: String
 })
 
+const store = useStore()
 const router = useRouter()
 
 const movie = ref(null)
@@ -27,6 +29,11 @@ watch(() => props.id, load, {immediate: true})
 
 const goBack = () => (window.history.state?.back ? router.back() : router.push('/'))
  
+const isInLibrary = computed(() => store.getters['library/has'](movie.value.imdbID))
+
+function toggleLibrary() {
+  store.dispatch('library/toggle', movie.value.imdbID)
+}
 </script>
 
 <template>
@@ -44,6 +51,9 @@ const goBack = () => (window.history.state?.back ? router.back() : router.push('
         <p>Note IMDb : {{ movie.imdbRating }}</p>
         <p>Genre : {{ movie.Genre }}</p>
         <p>Durée : {{ movie.Runtime }}</p>
+        <button class="btn" @click="toggleLibrary">
+          {{ isInLibrary ? 'Retirer de ma bibliothèque' : 'Ajouter à ma bibliothèque' }}
+        </button>
         <p>{{ movie.Plot }}</p>
       </div>
     </article>

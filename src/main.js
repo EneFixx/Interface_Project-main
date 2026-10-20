@@ -5,6 +5,6 @@ import router from './router'
 import store from './store'
 
 // On charge la bibliothèque avant de monter l'app
-store.dispatch('loadLibrary').then(() => {
+store.dispatch('library/loadLibrary').then(() => {
   createApp(App).use(store).use(router).mount('#app')
 })
