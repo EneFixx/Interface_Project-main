@@ -28,7 +28,8 @@ async function load() {
 watch(() => props.id, load, {immediate: true})
 
 const goBack = () => (window.history.state?.back ? router.back() : router.push('/'))
- 
+
+const isLoggedIn = computed(() => store.getters['user/isLoggedIn'])
 const isInLibrary = computed(() => store.getters['library/has'](movie.value.imdbID))
 
 function toggleLibrary() {
@@ -51,7 +52,7 @@ function toggleLibrary() {
         <p>Note IMDb : {{ movie.imdbRating }}</p>
         <p>Genre : {{ movie.Genre }}</p>
         <p>Durée : {{ movie.Runtime }}</p>
-        <button class="btn" @click="toggleLibrary">
+        <button v-if="isLoggedIn" class="btn" @click="toggleLibrary">
           {{ isInLibrary ? 'Retirer de ma bibliothèque' : 'Ajouter à ma bibliothèque' }}
         </button>
         <p>{{ movie.Plot }}</p>

@@ -1,10 +1,20 @@
 <script setup>
 import { computed, ref, watchEffect } from 'vue'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 const store = useStore()
+const router = useRouter()
+
 const total = computed(() => store.getters.totalCount)
-const favCount = computed(() => store.getters.favoritesCount)
+
+const isLoggedIn = computed(() => store.getters['user/isLoggedIn'])
+const currentUsername = computed(() => store.state.user.currentUser?.username)
+
+function logout() {
+  store.dispatch('user/logout')
+  router.push('/home')
+}
 
 // Thème : choix sauvegardé, sinon préférence du système
 const THEME_KEY = 'movie-theme'
@@ -30,10 +40,18 @@ watchEffect(() => (document.documentElement.dataset.theme = theme.value))
 <template>
   <header class="navbar">
     <div class="container navbar-inner">
-      <RouterLink to="/" class="brand">Ma Cinémathèque</RouterLink>
+      <RouterLink to="/home" class="brand">Ma Cinémathèque</RouterLink>
       <nav>
-        <RouterLink to="/">Accueil</RouterLink>
+        <RouterLink to="/home">Accueil</RouterLink>
         <RouterLink to="/library">Bibliothèque <span class="badge">{{ total }}</span></RouterLink>
+        
+        <template v-if="isLoggedIn">
+          <span class="username">{{ currentUsername }}</span>
+          <button type="button" class="logout-btn" @click="logout">Déconnexion</button>
+        </template>
+        <RouterLink v-else to="/">Connexion</RouterLink>
+        
+        
         <button
           type="button"
           class="theme-btn"
@@ -124,5 +142,25 @@ nav a:focus-visible,
 .badge {
   font-size: 0.75rem;
   opacity: 0.8;
+}
+
+.username {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  padding: 0.4rem 0.4rem;
+  font-weight: bold;
+}
+.logout-btn {
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font: inherit;
+}
+.logout-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
 }
 </style>
