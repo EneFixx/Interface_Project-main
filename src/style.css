@@ -1,28 +1,21 @@
-/* Thème clair (par défaut) */
+/* Thème clair */
 :root {
-  --primary: #1c3f7c; /* fonds de marque : navbar, boutons */
-  --accent: #1c3f7c; /* titres et textes colorés */
-  --bg: #f5f5f5;
+  --primary: #1c3f7c; /* couleur principale */
+  --accent: #1c3f7c; /* couleur secondaire */
   --surface: #fff;
-  --surface-2: #dde4f0;
-  --hover: #eef2f9;
   --border: #c9d2e3;
   --text: #1a2233;
   --muted: #6b7489;
   --shadow: 0 2px 8px rgba(28, 63, 124, 0.1);
   color-scheme: light;
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; /* police du site web */
   color: var(--text);
-  background: var(--bg);
 }
 
-/* Thème sombre, activé via data-theme="dark" sur <html> */
+/* Thème sombre */
 :root[data-theme='dark'] {
   --accent: #9dbcf2;
-  --bg: #121722;
   --surface: #1e2533;
-  --surface-2: #2a3346;
-  --hover: #2a3346;
   --border: #3a4560;
   --text: #e6eaf2;
   --muted: #9aa3b5;
@@ -30,13 +23,9 @@
   color-scheme: dark;
 }
 
-* {
-  box-sizing: border-box;
-}
-
 body {
   margin: 0;
-  background: var(--bg);
+  background: #f5f5f5;
 }
 
 h1 {
@@ -51,26 +40,6 @@ h1 {
   padding: 1.5rem 1rem;
 }
 
-.page-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1.25rem;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 1.25rem;
-}
-
-.empty {
-  text-align: center;
-  padding: 3rem 1rem;
-  color: var(--muted);
-}
 
 .btn {
   display: inline-block;
@@ -79,14 +48,11 @@ h1 {
   text-decoration: none;
   padding: 0.6rem 1.2rem;
   border-radius: 6px;
+  border: none;
+  margin: .3rem;
 }
 .btn:hover {
   opacity: 0.9;
-}
-
-.todo {
-  color: var(--muted);
-  font-style: italic;
 }
 
 button:focus-visible,

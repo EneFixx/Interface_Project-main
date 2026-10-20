@@ -16,10 +16,27 @@ defineProps({
 </template>
 
 <style scoped>
+.searchResults {
+    display: flex;
+    gap: 2rem;
+    wrap: wrap;
+    background-color: var(--surface);
+    padding: 3rem;
+    border-radius: 8px;
+}
 .movie {
     list-style-type: none;
+    font-size: .6rem;
+}
+
+.movie a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: black;
 }
 .movie img{
-    width: 10rem;
+    width: 8rem;
 }
 </style>

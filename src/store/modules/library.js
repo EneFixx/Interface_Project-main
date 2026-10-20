@@ -1,5 +1,5 @@
-function storageKey(username) {
-  return `library:${username || 'anon'}`
+function storageKey(username, suffix) {
+  return `library:${username || 'anon'}:${suffix}`
 }
 
 export default {
@@ -7,6 +7,8 @@ export default {
 
     state: () => ({
         ids: [],
+        favorites: [],
+        watched: [],
     }),
 
     getters: {
@@ -18,8 +20,10 @@ export default {
     },
 
     mutations: {
-        SET_IDS(state, ids) {
+        SET_STATE(state, { ids, favorites, watched }) {
             state.ids = ids
+            state.favorites = favorites
+            state.watched = watched
         },
         ADD(state, imdbID) {
             if (!state.ids.includes(imdbID)) {
@@ -28,7 +32,6 @@ export default {
         },
         REMOVE(state, imdbID) {
             state.ids = state.ids.filter((id) => id !== imdbID)
-            // un film retiré de la bibliothèque n'est plus favori ni vu
             state.favorites = state.favorites.filter((id) => id !== imdbID)
             state.watched = state.watched.filter((id) => id !== imdbID)
         },
@@ -47,15 +50,19 @@ export default {
             }
         },
         PERSIST(state, username) {
-            localStorage.setItem(storageKey(username), JSON.stringify(state.ids))
+            localStorage.setItem(storageKey(username, 'ids'), JSON.stringify(state.ids))
+            localStorage.setItem(storageKey(username, 'favorites'), JSON.stringify(state.favorites))
+            localStorage.setItem(storageKey(username, 'watched'), JSON.stringify(state.watched))
         },
     },
 
     actions: {
         loadLibrary({ commit, rootState }) {
             const username = rootState.user.currentUser?.username
-            const ids = JSON.parse(localStorage.getItem(storageKey(username)) || '[]')
-            commit('SET_IDS', ids)
+            const ids = JSON.parse(localStorage.getItem(storageKey(username, 'ids')) || '[]')
+            const favorites = JSON.parse(localStorage.getItem(storageKey(username, 'favorites')) || '[]')
+            const watched = JSON.parse(localStorage.getItem(storageKey(username, 'watched')) || '[]')
+            commit('SET_STATE', { ids, favorites, watched })
             return Promise.resolve()
         },
         add({ commit, rootState }, imdbID) {
@@ -69,13 +76,13 @@ export default {
         toggle({ getters, dispatch }, imdbID) {
             getters.has(imdbID) ? dispatch('remove', imdbID) : dispatch('add', imdbID)
         },
-        toggleFavorite({ commit }, imdbID) {
+        toggleFavorite({ commit, rootState }, imdbID) {
             commit('TOGGLE_FAVORITE', imdbID)
-            commit('PERSIST')
+            commit('PERSIST', rootState.user.currentUser?.username)
         },
-        toggleWatched({ commit }, imdbID) {
+        toggleWatched({ commit, rootState }, imdbID) {
             commit('TOGGLE_WATCHED', imdbID)
-            commit('PERSIST')
+            commit('PERSIST', rootState.user.currentUser?.username)
         },
     }
 }
