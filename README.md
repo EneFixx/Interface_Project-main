@@ -1,42 +1,42 @@
-# Interface_Project
+# Projet d'interface : Ma Cinémathèque
 
-This template should help get you started developing with Vue 3 in Vite.
+Projet réalisé lors du cours d'Interface Development and Design à l'efrei.
+Il s'agit d'un site web construite avec vue.js qui permet de rechercher des films et de les ajouter à une bibliothèque personnelle.
 
-## Recommended IDE Setup
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-## Recommended Browser Setup
+## API utilisée
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+**OMDb API** : récupération d'information sur les films (titre, année, synopsys, code IMDb, etc).
 
-## Type Support for `.vue` Imports in TS
+## Fonctionnalités
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- Connexion à un compte personnel
+- Recherche de films par titre ou identifiant IMDb
+- Filtrage par année
+- Tri des résultats par titre ou année
+- Ajout/retrait d'un film à une bibliothèque personnelle
+- Marquer un film comme favori/non favori ou lu/non lu
+- Mode sombre/clair
+- Persistance via localStorage
 
-## Customize configuration
+## Installation
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+(prérequis : node.js et npm)
 
-## Project Setup
-
-```sh
+### Dépendances
+```bash
 npm install
 ```
 
-### Compile and Hot-Reload for Development
-
-```sh
+### Lancer le serveur
+```bash
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
 
-```sh
-npm run build
-```
+
+## Contributors :
+
+Armand LABERNARDIERE
+Raphaël LAURENT

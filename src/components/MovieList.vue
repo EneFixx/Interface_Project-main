@@ -34,7 +34,7 @@ defineProps({
     flex-direction: column;
     align-items: center;
     text-decoration: none;
-    color: black;
+    color: var(--text);
 }
 
 .movie p {

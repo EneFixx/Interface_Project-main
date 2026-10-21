@@ -117,7 +117,7 @@ function sortResults(movies) {
 .search-bar button:hover {
     background-color: var(--accent);
     border: 1px solid var(--surface);
-    color: var(--surface)
+    color: var(--text)
 }
 
 #filterButton {

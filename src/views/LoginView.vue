@@ -38,11 +38,11 @@ function toggleMode() {
             
             <form @submit.prevent="handleSubmit">
                 <label>
-                    Pseudo
+                    Pseudo :
                     <input v-model="username" type="text" required autocomplete="username" />
                 </label>
                 <label>
-                    Mot de passe
+                    Mot de passe :
                     <input v-model="password" type="password" required autocomplete="current-password" />
                 </label>
 
@@ -63,8 +63,7 @@ function toggleMode() {
 <style scoped>
 #auth {
     padding: 1rem;
-    margin: 1rem;
-    background: var(--accent);
+    background: var(--primary);
     border-radius: 8px;
     box-shadow: var(--shadow);
     color: var(--surface);
