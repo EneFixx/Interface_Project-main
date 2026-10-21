@@ -36,7 +36,7 @@ npm run dev
 
 
 
-## Contributors :
+## Contributeurs :
 
 Armand LABERNARDIERE
 Raphaël LAURENT
