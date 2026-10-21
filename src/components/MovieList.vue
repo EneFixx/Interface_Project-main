@@ -20,9 +20,9 @@ defineProps({
     display: flex;
     gap: 2rem;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: left;
     background-color: var(--surface);
-    padding: 3rem;
+    padding: 3rem 5rem;
     border-radius: 8px;
 }
 .movie {
